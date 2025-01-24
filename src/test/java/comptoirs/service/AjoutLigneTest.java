@@ -12,7 +12,7 @@ import jakarta.validation.ConstraintViolationException;
 
 
 @SpringBootTest
- // Ce test est basé sur le jeu de données dans "test_data.sql"
+    // Ce test est basé sur le jeu de données dans "test_data.sql"
 class AjoutLigneTest {
     static final int NUMERO_COMMANDE_DEJA_LIVREE = 99999;
     static final int NUMERO_COMMANDE_PAS_LIVREE  = 99998;
@@ -65,5 +65,12 @@ class AjoutLigneTest {
         assertThrows(IllegalStateException.class,
             () -> service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_DISPONIBLE_4, quantiteMaximumCommandable + 1),
             "La quantité commandée ne doit pas dépasser le stock disponible");
+    }
+
+    @Test
+    void throwProduitIndisponible() {
+        assertThrows(IllegalStateException.class,
+            () -> service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_INDISPONIBLE, 1),
+            "Le produit est indisponible");
     }
 }
